@@ -1,0 +1,24 @@
+// intrabar RSI 50-lvl strategy
+[IntrabarOrderGeneration = true];
+begin
+
+	Vars:
+		intrabarpersist MyRSI(0);
+			 
+	MyRSI = RSI(open,14);
+	
+	// short entry
+	if MyRSI < 50 and MyRSI[1] >= 50 then 
+	begin 		
+		if not(marketposition < 0) then
+			SellShort("ShortIN") next bar at market;
+	end;	
+					
+	// long entry
+	if MyRSI > 50 and MyRSI[1] <= 50 then 
+	begin		
+		if not(marketposition > 0) then
+			Buy("LongIN") next bar at market;
+	end;
+		
+end; 
